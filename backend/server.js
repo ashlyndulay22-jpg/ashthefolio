@@ -22,7 +22,7 @@ connectDB();
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://your-site.netlify.app'
+    'https://ashsthefolio.netlify.app/'
   ],
   credentials: true
 }));
