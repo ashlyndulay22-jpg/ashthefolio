@@ -20,8 +20,10 @@ connectDB();
 // ── Middleware ─────────────────────────────────────────────────
 // Allow React (port 3000) to call this server
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
-  credentials: true
+origin: [
+  'http://localhost:3000',
+  process.env.CLIENT_URL
+]
 }));
 
 // Parse incoming JSON request bodies
