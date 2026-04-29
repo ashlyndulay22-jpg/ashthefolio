@@ -1,18 +1,17 @@
-const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const connectDB = require('./config/db');
 const User = require('./models/User');
 
 connectDB().then(async () => {
   try {
+    // Delete existing admin if it exists
     await User.deleteOne({ email: 'admin@thefolio.com' });
 
-    const hashedPassword = await bcrypt.hash('Admin@0701', 10);
-
+    // Create new admin with plain text password
     const user = await User.create({
       name: 'TheFolio Admin',
       email: 'admin@thefolio.com',
-      password: hashedPassword,
+      password: 'Admin@0701',   // 👈 plain text, not hashed
       role: 'admin',
     });
 
@@ -20,6 +19,7 @@ connectDB().then(async () => {
     console.log('Email:    admin@thefolio.com');
     console.log('Password: Admin@0701');
     console.log('User ID:', user._id);
+
     process.exit(0);
   } catch (err) {
     console.error('Error:', err.message);
