@@ -1,35 +1,42 @@
 // frontend/src/pages/RegisterPage.js
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import API from '../api/axios';
+import { useAuth } from '../context/AuthContext';
+
 const RegisterPage = () => {
-  const [form, setForm]   = useState({ name: '', email: '', password: '' });
-  const [error, setError] = useState('');
-  const navigate          = useNavigate();
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: 
-e.target.value });
+  const [email, setEmail]       = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError]       = useState('');
+  const { register } = useAuth();
+  const navigate  = useNavigate();
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); setError('');
+    e.preventDefault();
+    setError('');
     try {
-      const { data } = await API.post('/auth/register', form);
-      localStorage.setItem('token', data.token);
+      await register(email, password);   // no unused variable
       navigate('/home');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed.');
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
     }
   };
+
   return (
     <div className='register-page'>
-      <h2 className='font' style={{paddingBottom: 40}}>Create an Account</h2>
+      <h2 className='font'>Register for TheFolio</h2>
       {error && <p className='error-msg'>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input name='name' placeholder='Full name' value={form.name} onChange={handleChange} required />
-        <input name='email' type='email' placeholder='Email' value={form.email} onChange={handleChange} required />
-        <input name='password' type='password' placeholder='Password (min 6 chars)' value={form.password} onChange={handleChange} required minLength={6} />
+        <input type='email' placeholder='Email address'
+          value={email} onChange={e => setEmail(e.target.value)} required />
+        <input type='password' placeholder='Password'
+          value={password} onChange={e => setPassword(e.target.value)} required />
         <button type='submit' className='font'>Register</button>
       </form>
-      <p style={{paddingTop: 40}} className='font'>Already have an account? <Link to='/login'>Login</Link></p>
+      <p className='font' style={{paddingTop: 35}}>
+        Already have an account? <Link to='/login'>Login here</Link>
+      </p>
     </div>
   );
 };
+
 export default RegisterPage;
