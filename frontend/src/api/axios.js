@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000/api',});
+  baseURL: process.env.REACT_APP_API_URL, // use env variable
+});
 // This interceptor runs before EVERY request.
 // It reads the token from localStorage and adds it to the Authorization header.
 instance.interceptors.request.use((config) => {
