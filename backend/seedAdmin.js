@@ -1,20 +1,21 @@
-// backend/seedAdmin.js
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const connectDB = require('./config/db');
-const User      = require('./models/User');
+const User = require('./models/User');
 
 connectDB().then(async () => {
   try {
-    // Delete existing admin if it exists
-    const deleted = await User.deleteOne({ email: 'admin@thefolio.com' });
-    console.log('Deleted existing admin:', deleted.deletedCount);
-    
+    await User.deleteOne({ email: 'admin@thefolio.com' });
+
+    const hashedPassword = await bcrypt.hash('Admin@0701', 10);
+
     const user = await User.create({
-      name:     'TheFolio Admin',
-      email:    'admin@thefolio.com',
-      password: 'Admin@0701',
-      role:     'admin',
+      name: 'TheFolio Admin',
+      email: 'admin@thefolio.com',
+      password: hashedPassword,
+      role: 'admin',
     });
+
     console.log('Admin account created successfully!');
     console.log('Email:    admin@thefolio.com');
     console.log('Password: Admin@0701');
