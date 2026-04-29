@@ -20,10 +20,11 @@ connectDB();
 // ── Middleware ─────────────────────────────────────────────────
 // Allow React (port 3000) to call this server
 app.use(cors({
-origin: [
-  'http://localhost:3000',
-  process.env.CLIENT_URL
-]
+  origin: [
+    'http://localhost:3000',
+    'https://your-site.netlify.app'
+  ],
+  credentials: true
 }));
 
 // Parse incoming JSON request bodies
