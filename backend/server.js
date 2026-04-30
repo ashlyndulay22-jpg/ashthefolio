@@ -19,11 +19,19 @@ connectDB();
 
 // ── Middleware ─────────────────────────────────────────────────
 // Allow React (port 3000) to call this server
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://projectfronte.netlify.app"
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://ashsthefolio.netlify.app'
-  ],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 

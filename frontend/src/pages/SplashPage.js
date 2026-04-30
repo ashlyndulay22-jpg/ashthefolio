@@ -35,7 +35,7 @@ function SplashPage() {
       <div className={`loader-container ${fade ? "fade-out" : ""}`}>
         <div className="logo"></div>
         <h2 className="font" style={{textAlign: "center"}}>My Passion in Coding</h2>
-        <div className="spinner" style={{display:1}}><h2 className="loading-text">
+        <div className="spinner" style={{display:1}}><h2 className="loading-text font">
           🖳 Loading<span className="dots">{dots}</span>
         </h2></div>
         
