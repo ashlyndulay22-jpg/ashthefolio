@@ -1,4 +1,3 @@
-// frontend/src/context/AuthContext.js
 import api from '../api/axios';
 import { createContext, useContext, useState } from 'react';
 
@@ -7,7 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // ✅ Login with plain text password
+  // ✅ Login
   const login = async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password });
     localStorage.setItem('token', data.token);
@@ -15,9 +14,9 @@ export const AuthProvider = ({ children }) => {
     return data.user;
   };
 
-  // ✅ Register with plain text password
-  const register = async (email, password) => {
-    const { data } = await api.post('/auth/register', { email, password });
+  // ✅ Register (now includes name)
+  const register = async (name, email, password) => {
+    const { data } = await api.post('/auth/register', { name, email, password });
     localStorage.setItem('token', data.token);
     setUser(data.user);
     return data.user;

@@ -1,9 +1,9 @@
-// frontend/src/pages/RegisterPage.js
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = () => {
+  const [name, setName]         = useState('');   // NEW state
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [error, setError]       = useState('');
@@ -14,7 +14,8 @@ const RegisterPage = () => {
     e.preventDefault();
     setError('');
     try {
-      await register(email, password);   // no unused variable
+      // Pass name along with email & password
+      await register(name, email, password);
       navigate('/home');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
@@ -26,6 +27,8 @@ const RegisterPage = () => {
       <h2 className='font'>Register for TheFolio</h2>
       {error && <p className='error-msg'>{error}</p>}
       <form onSubmit={handleSubmit}>
+        <input type='text' placeholder='Full name'
+          value={name} onChange={e => setName(e.target.value)} required />
         <input type='email' placeholder='Email address'
           value={email} onChange={e => setEmail(e.target.value)} required />
         <input type='password' placeholder='Password'
